@@ -1,0 +1,8 @@
+# virtualenv
+venv/
+
+# dependencies
+phantomjs
+
+# password file
+password.txt
