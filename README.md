@@ -84,7 +84,7 @@ So, as an example, if your name is Jane Smith and your password is stored in
 
     nohup sh daemon.sh 1483574400 sh notify.sh jsmith01 password.txt jane.smith@tufts.edu > /dev/null &
 
-#### Step 6: Logout
+#### Step 7: Logout
 
 You can now logout of the homework server, and you'll get an email every time
 your grades are updated on SIS.
