@@ -53,12 +53,24 @@ your password to sign onto SIS.
     <:x>
     <phew>
 
-#### Step 5: Run daemon
+#### Step 5: Try it
+
+You can test if the script works by running `notifer.sh`:
+
+    sh notifer.sh <SIS username> <password file> <email>
+    
+For example, if your name is Jane Smith and your password is sotred in `password.txt`, run the following command:
+
+    sh notifier jsmith01 password.txt jane.smith@tufts.edu
+
+It should print out your grades to the terminal.
+
+#### Step 6: Run daemon
 
 Everything is now set up! With the included `daemon.sh`, you can run the
 notifier script repeatedly.
 
-    ./daemon.sh <epoch expiration> notify.sh <SIS username> <password-file> <email>
+    sh daemon.sh <epoch expiration> notify.sh <SIS username> <password-file> <email>
 
 Combined with `nohup`, you can set the notifier to run in the background after
 you log off.
@@ -69,7 +81,7 @@ expiration 1483574400.
 So, as an example, if your name is Jane Smith and your password is stored in
 `passsword.txt`, run the following command:
 
-    nohup ./daemon.sh 1483574400 notify.sh jsmith01 password.txt john.smith@tufts.edu > /dev/null &
+    nohup ./daemon.sh 1483574400 notify.sh jsmith01 password.txt jane.smith@tufts.edu > /dev/null &
 
 #### Step 6: Logout
 
@@ -83,5 +95,5 @@ your grades are updated on SIS.
 
 Created by Zach Kirsch, December 2016
 
-Feel free to let me know if there are any problems, or to fork.
+Feel free to let me know if there are any problems.
 
