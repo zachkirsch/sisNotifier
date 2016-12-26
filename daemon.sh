@@ -4,13 +4,14 @@
 # Zach Kirsch | December 2016
 
 # argument 1:  expiration (epoch time)
-# argument 2:  script to run
-# argument 3+: arguments to be passed to script
+# argument 2+: command to run (plus any arguments)
+
+# example: sh daemon.sh 1483574400 touch hi.txt
 
 # check arguments
 if [[ $# -lt 2 ]]; then
         echo "Wrong number of arguments."
-        echo "Usage: $0 <expiration epoch> <script> [args]"
+        echo "Usage: $0 <expiration epoch> <command> [args]"
         exit 1
 fi
 
