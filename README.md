@@ -46,7 +46,7 @@ your password to sign onto SIS.
     vim password.txt
     <enter SIS password>
     <realize you weren't in insert mode, so now everything is screwed up>
-    <press I for insert mode>
+    <press i for insert mode>
     <enter SIS password>
     <spend 10 minutes trying to figure out how to exit Vim>
     <Escape>
@@ -55,7 +55,7 @@ your password to sign onto SIS.
 
 #### Step 5: Try it
 
-You can test if the script works by running `notifer.sh`:
+You can test if the script works by running `notify.sh`:
 
     sh notify.sh <SIS username> <password file> <email>
 
