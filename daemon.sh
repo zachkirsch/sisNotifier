@@ -20,5 +20,5 @@ shift
 
 while [[ $(date +'%s') -lt $expiration ]]; do
         sh "${@}"
-        sleep 10
+        sleep 600
 done
