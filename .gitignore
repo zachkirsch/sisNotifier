@@ -6,3 +6,7 @@ phantomjs
 
 # password file
 password.txt
+
+# files where grades are stored
+.grades.txt
+.new_grades.txt
