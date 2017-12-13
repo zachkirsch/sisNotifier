@@ -19,6 +19,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+import time
 import datetime
 import sys
 import os.path
@@ -60,20 +61,20 @@ def login(driver):
 
 # get grades
 def get_grades(driver):
-    grades_table = driver.find_elements(By.TAG_NAME, "table")[12]
-    print grades_table
+    grades_table = driver.find_elements(By.TAG_NAME, "table")[11]
     courses = grades_table.find_elements(By.TAG_NAME, "tr")
     for course in courses:
         details = course.find_elements(By.TAG_NAME, "td")
 
         # makes sure it's a grade row
-        if len(details) != 6:
+        if len(details) != 7:
             continue
 
         course_name = details[0].text
         prof = details[2].text
         grade = details[3].text
-        graded = details[4].text == "Graded"
+        grading_basis = details[5].text
+        graded = grading_basis in ["Graded", "P/NP"]
 
         # only print graded courses
         if not graded:
@@ -123,6 +124,9 @@ if __name__ == "__main__":
     # go back a semester
     back_arrow = driver.find_element_by_id('tfp_grades_lft_arrow')
     back_arrow.click()
+
+    # wait for slide transition
+    time.sleep(2)
 
     get_grades(driver)
 
