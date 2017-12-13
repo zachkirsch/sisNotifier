@@ -29,12 +29,11 @@ import os.path
 # Constants
 
 delay = 10  # will wait this many seconds before timing out
-login_url = "https://sis.uit.tufts.edu/psp/paprd/EMPLOYEE/EMPL/h/" + \
-            "?tab=PAPP_GUEST"
-
-dt = datetime.datetime.now().strftime('%Y%m%d-%H%m')
-sis_url = "https://sis.uit.tufts.edu/psp/paprd/EMPLOYEE/EMPL/h/" + \
-          "?tab = DEFAULT&tm = " + dt + "#1"
+login_url = ("https://sis.uit.tufts.edu/psp/paprod/EMPLOYEE/EMPL/h/" +
+             "?tab=PAPP_GUEST#")
+dt = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+sis_url = ("https://sis.uit.tufts.edu/psp/paprod/EMPLOYEE/EMPL/h/?tab=DEFAULT" +
+           "&tm=" + dt + "#1")
 
 phantomjs_binary = r'./phantomjs'
 
@@ -62,6 +61,7 @@ def login(driver):
 # get grades
 def get_grades(driver):
     grades_table = driver.find_elements(By.TAG_NAME, "table")[12]
+    print grades_table
     courses = grades_table.find_elements(By.TAG_NAME, "tr")
     for course in courses:
         details = course.find_elements(By.TAG_NAME, "td")
@@ -119,6 +119,10 @@ if __name__ == "__main__":
     driver.get(sis_url)
 
     wait_for_element((By.ID, 'tfp_grades_lft_arrow'))
+
+    # go back a semester
+    back_arrow = driver.find_element_by_id('tfp_grades_lft_arrow')
+    back_arrow.click()
 
     get_grades(driver)
 
