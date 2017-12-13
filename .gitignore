@@ -10,3 +10,9 @@ password.txt
 # files where grades are stored
 .grades.txt
 .new_grades.txt
+
+# binaries
+geckodriver
+geckodriver.log
+phantomjs
+firefox

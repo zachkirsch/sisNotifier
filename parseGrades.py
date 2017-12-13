@@ -7,6 +7,7 @@
 # Dependencies:
 #   Selenium (pip install selenium)
 #   PhantomJS (http://phantomjs.org/download.html)
+#   Firefox
 #
 # Usage: python parseGrades.py <username> <password file>
 
@@ -18,6 +19,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.common.exceptions import TimeoutException
 import time
 import datetime
@@ -29,14 +31,16 @@ import os.path
 
 # Constants
 
-delay = 10  # will wait this many seconds before timing out
+delay = 30  # will wait this many seconds before timing out
 login_url = ("https://sis.uit.tufts.edu/psp/paprod/EMPLOYEE/EMPL/h/" +
              "?tab=PAPP_GUEST#")
 dt = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
 sis_url = ("https://sis.uit.tufts.edu/psp/paprod/EMPLOYEE/EMPL/h/?tab=DEFAULT" +
            "&tm=" + dt + "#1")
 
-phantomjs_binary = r'./phantomjs'
+path_to_phantomjs_binary = './phantomjs'
+path_to_geckodriver_binary = './geckodriver'
+path_to_firefox_binary = './firefox'
 
 ###############################################################################
 ###############################################################################
@@ -106,33 +110,34 @@ if __name__ == "__main__":
         PASS = f.readline().rstrip("\n")
 
     # Initialize and load the web page
-    driver = webdriver.PhantomJS(executable_path=phantomjs_binary,
-                                 service_log_path=os.path.devnull)
+    driver = webdriver.PhantomJS(executable_path=path_to_phantomjs_binary,
+                                 service_log_path=os.path.devnull,
+                                 service_args=['--ignore-ssl-errors=true'])
+    driver.set_window_size(2400,2000)
 
-    # driver = webdriver.PhantomJS()
-    # driver = webdriver.Firefox()
-    driver.get(login_url)
-    wait_for_element((By.NAME, 'userid'))
+    # firefox_binary = FirefoxBinary(path_to_firefox_binary)
+    # driver = webdriver.Firefox(executable_path=path_to_geckodriver_binary,
+    #                           firefox_binary=firefox_binary)
 
-    login(driver)
+    try:
+        driver.get(login_url)
+        wait_for_element((By.NAME, 'userid'))
 
-    # after logged in, go to sis grades url
-    driver.get(sis_url)
+        login(driver)
 
-    time.sleep(5)
+        # after logged in, go to sis grades url
+        driver.get(sis_url)
 
-    driver.get(sis_url)
+        # go back a semester
+        wait_for_element((By.ID, 'tfp_grades_lft_arrow'))
+        back_arrow = driver.find_element_by_id('tfp_grades_lft_arrow')
+        back_arrow.click()
 
-    wait_for_element((By.ID, 'tfp_grades_lft_arrow'))
+        # wait for slide transition
+        time.sleep(2)
 
-    # go back a semester
-    back_arrow = driver.find_element_by_id('tfp_grades_lft_arrow')
-    back_arrow.click()
+        get_grades(driver)
 
-    # wait for slide transition
-    time.sleep(2)
-
-    get_grades(driver)
-
-    driver.close()
-    driver.quit()
+    finally:
+        driver.close()
+        driver.quit()

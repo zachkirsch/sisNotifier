@@ -36,10 +36,8 @@ fi
 touch $old $new
 
 # run grade parser, put output in $new
-source venv/bin/activate
 python parseGrades.py "$username" "$password" > $new
 python_exit=$?
-deactivate
 pkill -u $USER phantomjs
 
 if [ $python_exit -ne 0 ]; then # python error
