@@ -119,6 +119,10 @@ if __name__ == "__main__":
     # after logged in, go to sis grades url
     driver.get(sis_url)
 
+    time.sleep(5)
+
+    driver.get(sis_url)
+
     wait_for_element((By.ID, 'tfp_grades_lft_arrow'))
 
     # go back a semester
