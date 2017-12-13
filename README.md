@@ -13,7 +13,7 @@ posted on SIS.
 
 #### Step 3: Run the setup script
 
-    ./setup
+    sh setup
 
 If you get some "Disk Quota Exceeded" errors, you don't have enough space for
 all the dependencies. This requires about 75 megabytes of space.
@@ -46,7 +46,7 @@ your password to sign onto SIS.
     vim password.txt
     <enter SIS password>
     <realize you weren't in insert mode, so now everything is screwed up>
-    <press I for insert mode>
+    <press i for insert mode>
     <enter SIS password>
     <spend 10 minutes trying to figure out how to exit Vim>
     <Escape>
@@ -55,13 +55,14 @@ your password to sign onto SIS.
 
 #### Step 5: Try it
 
-You can test if the script works by running `notifer.sh`:
+You can test if the script works by running `notify.sh`:
 
-    sh notifer.sh <SIS username> <password file> <email>
-    
-For example, if your name is Jane Smith and your password is sotred in `password.txt`, run the following command:
+    sh notify.sh <SIS username> <password file> <email>
 
-    sh notifier jsmith01 password.txt jane.smith@tufts.edu
+For example, if your name is Jane Smith and your password is stored in
+`password.txt`, run the following command:
+
+    sh notify.sh jsmith01 password.txt jane.smith@tufts.edu
 
 It should print out your grades to the terminal.
 
@@ -70,7 +71,7 @@ It should print out your grades to the terminal.
 Everything is now set up! With the included `daemon.sh`, you can run the
 notifier script repeatedly.
 
-    sh daemon.sh <epoch expiration> notify.sh <SIS username> <password-file> <email>
+    sh daemon.sh <epoch expiration> sh notify.sh <SIS username> <password-file> <email>
 
 Combined with `nohup`, you can set the notifier to run in the background after
 you log off.
@@ -81,9 +82,9 @@ expiration 1483574400.
 So, as an example, if your name is Jane Smith and your password is stored in
 `passsword.txt`, run the following command:
 
-    nohup ./daemon.sh 1483574400 notify.sh jsmith01 password.txt jane.smith@tufts.edu > /dev/null &
+    nohup sh daemon.sh 1483574400 sh notify.sh jsmith01 password.txt jane.smith@tufts.edu > /dev/null &
 
-#### Step 6: Logout
+#### Step 7: Logout
 
 You can now logout of the homework server, and you'll get an email every time
 your grades are updated on SIS.
