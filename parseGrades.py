@@ -71,13 +71,13 @@ def get_grades(driver):
         details = course.find_elements(By.TAG_NAME, "td")
 
         # makes sure it's a grade row
-        if len(details) != 7:
+        if len(details) != 6:
             continue
 
         course_name = details[0].text
         prof = details[2].text
         grade = details[3].text
-        grading_basis = details[5].text
+        grading_basis = details[4].text
         graded = grading_basis in ["Graded", "P/NP"]
 
         # only print graded courses
